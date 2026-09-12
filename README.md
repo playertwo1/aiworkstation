@@ -27,8 +27,8 @@ O celular será o painel de controle. O Galaxy Book6 Pro será o nó de execuç�
 - [Síntese da conversa](docs/08-sintese-da-conversa.md)
 - [Briefing de início para Codex Astra](docs/09-briefing-codex-astra.md)
 - [Glossário](docs/10-glossario.md)
+- [Trilha Hermes](docs/11-trilha-hermes.md)
 
 ## Regra de foco
 
 Até o MVP provar valor, este repositório não implementará a plataforma bancária Diretor 360. A arquitetura poderá ser reaproveitada no futuro, mas o produto em construção agora é somente o Projeto Vivo.
-
