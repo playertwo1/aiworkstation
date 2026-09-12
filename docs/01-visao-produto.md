@@ -1,74 +1,67 @@
-# Visão do Produto Vivo
+# Visão da AI Workstation
 
 ## Problema
 
-Rafael desenvolve vários projetos usando Codex, Claude, Antigravity, GitHub e outras ferramentas. O contexto fica fragmentado entre conversas, commits, arquivos, issues e anotações. Retomar um projeto exige reconstruir manualmente o que aconteceu e aumenta o risco de repetir trabalho, perder decisões ou executar a próxima ação errada.
+Rafael desenvolve vários projetos usando Codex, Claude, Antigravity, GitHub e outras ferramentas. O contexto se fragmenta, os runtimes não compartilham estado confiável e o computador não possui uma camada única de execução, memória, políticas e auditoria.
 
 ## Visão
 
-O Projeto Vivo será o **sistema operacional pessoal de projetos assistidos por IA**. Ele reunirá estado, contexto, histórico, agentes e capacidade de execução em uma experiência móvel simples.
+AI Workstation será a **plataforma pessoal headless para projetos assistidos por IA**. Ela transforma o Galaxy Book/PC em um nó seguro e observável. O RIN oferece a experiência Android; o módulo Projeto Vivo traduz o estado da plataforma em “Onde parei?” e próximas decisões.
 
 ## Promessa central
 
-Ao abrir um projeto, o usuário entende em menos de 30 segundos:
+A plataforma fornece ao cliente autorizado:
 
-- estado atual;
-- última mudança relevante;
-- agente ou ferramenta que trabalhou nele;
-- bloqueios e riscos;
-- decisões recentes;
-- próximo passo recomendado;
-- se é seguro continuar.
+- estado canônico e rastreável dos projetos;
+- Git e evidências reais;
+- sessões e eventos persistidos;
+- comandos tipados e idempotentes;
+- adaptadores substituíveis de agentes;
+- aprovações e auditoria;
+- recuperação após falhas;
+- conhecimento e automações opcionais.
 
 ## Usuário inicial
 
-Um único usuário: Rafael. O produto será otimizado para seu fluxo real antes de qualquer ambição multiusuário.
+Um único usuário: Rafael. A plataforma será otimizada para seu fluxo real antes de multiusuário ou uso empresarial.
 
-## Cenário principal
+## Princípios
 
-1. Rafael abre o app no Android.
-2. Vê os projetos e seus estados.
-3. Abre `Diretor 360`, `Minha Floresta`, `RelogioFace` ou outro projeto.
-4. Toca em **Onde parei?**.
-5. O sistema consolida estado registrado, Git e tarefas.
-6. Rafael revisa o próximo passo.
-7. Somente em fase posterior, toca em **Continuar** e escolhe/autoriza um agente.
+### Verdade do estado
 
-## Pilares
-
-### Continuidade
-
-O projeto conserva um checkpoint compreensível, não apenas logs brutos.
-
-### Evidência
-
-Cada afirmação importante deve apontar sua origem: commit, issue, arquivo, sessão ou anotação.
+Git é autoridade do código. O banco/event log é autoridade operacional. Nenhum runtime ou chat é fonte única.
 
 ### Controle humano
 
-Agentes propõem; Rafael aprova ações críticas, aprendizados e mudanças permanentes.
+Ações críticas, promoções de memória e mudanças permanentes exigem política e aprovação verificável.
+
+### Substituibilidade
+
+Codex, Claude, Antigravity, Hermes, Obsidian e outros entram por adaptadores.
 
 ### Eficiência
 
-Serviços ficam ociosos quando não usados. O processamento pesado permanece preferencialmente na nuvem; o notebook orquestra.
+Serviços headless, limites de concorrência e suspensão segura reduzem uso de RAM/CPU.
 
-### Portabilidade
+### Separação de produto
 
-Componentes externos devem ser substituíveis. O produto não pode depender irreversivelmente de um único runtime ou provedor.
+AI Workstation executa. RIN apresenta e autoriza. Projeto Vivo organiza a retomada no RIN.
 
 ## Não objetivos iniciais
 
-- Criar uma IDE móvel completa.
-- Substituir GitHub, Obsidian, Codex, Claude, Gemini, Hermes ou n8n.
-- Rodar modelos grandes localmente.
-- Automatizar alternância de assinaturas antes de validar suporte oficial e termos.
-- Gerenciar dados bancários ou implementar o Diretor 360 no MVP.
+- Criar interface Android neste repositório.
+- Criar IDE ou terminal remoto genérico.
+- Rodar modelos grandes localmente como requisito.
+- Burlar quotas, planos ou termos.
+- Tornar Hermes ou Obsidian obrigatórios.
+- Misturar dados bancários/Diretor 360 no MVP.
+- Implantar multiusuário antes do piloto pessoal.
 
-## Métricas iniciais de sucesso
+## Métricas iniciais
 
-- Tempo mediano para entender onde o projeto parou: abaixo de 30 segundos.
-- Checkpoints com fonte rastreável: 100%.
-- Retomadas sem reconstrução manual de contexto: pelo menos 80% nos projetos-piloto.
-- Zero ação crítica executada sem confirmação.
-- App utilizável integralmente no celular.
-
+- 100% dos estados terminais com evidência.
+- Zero ação crítica sem autorização válida.
+- Recuperação coerente após reinício/falha.
+- Contrato compatível com fake e cliente RIN.
+- Tempo de resposta suficiente para “Onde parei?” em menos de 30 segundos no app.
+- Consumo medido no hardware real antes de ampliar concorrência.
