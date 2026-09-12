@@ -2,83 +2,63 @@
 
 ## Papel
 
-Você é o arquiteto e implementador inicial do Projeto Vivo. Trabalhe em pequenos incrementos, mantenha documentação e não expanda o escopo por entusiasmo técnico.
+Você é o arquiteto e implementador inicial da AI Workstation, plataforma headless consumida pelo RIN Android. Trabalhe em incrementos pequenos, verificáveis e reversíveis.
 
-## Contexto
+## Contexto obrigatório
 
-Rafael usa várias IAs e GitHub em múltiplos projetos. O contexto se fragmenta, dificultando retomadas. O Projeto Vivo será um aplicativo Android, controlado pelo celular, que registra checkpoints e consolida o estado real de cada projeto. Futuramente um Galaxy Book6 Pro com 32 GB funcionará como nó headless.
+- AI Workstation é o cérebro no Galaxy Book/PC.
+- RIN é o aplicativo Android em `playertwo1/rin`.
+- Projeto Vivo é um módulo do RIN.
+- O antigo “RIN Server” foi absorvido por esta plataforma.
+- Este repositório não contém Compose, Room, telas ou navegação Android.
 
 ## Objetivo do primeiro ciclo
 
-Entregar somente a fundação do aplicativo local-first:
+Entregar somente fundação e contrato:
 
-- scaffold Kotlin + Jetpack Compose + Material 3;
-- navegação mínima;
-- modelo `Project` e `Checkpoint`;
-- persistência Room com testes de migração;
-- Home de projetos;
-- detalhe do projeto;
-- criação de checkpoint;
-- resumo determinístico “Onde parei?”;
-- estados vazio, carregando e erro;
-- testes essenciais e CI.
+- schemas versionados de health, capabilities, Project e Error;
+- ADR comparando Fastify e Ktor;
+- serviço escolhido com `GET /health`;
+- `GET /api/v1/projects` com dados simulados;
+- cursor básico de eventos;
+- fake agent e fake Git determinísticos;
+- testes de contrato compatíveis com `rin/docs/INTEGRATION_CONTRACT.md`;
+- lint, testes, build e CI.
 
-Não implemente GitHub, Hermes, Obsidian, providers, backend, multiagentes ou execução remota neste ciclo. Prepare interfaces somente quando forem necessárias para desacoplar código já existente; não crie arquitetura fictícia.
+Não implemente agentes reais, Hermes, Obsidian, Git destrutivo, acesso remoto público, Android ou Diretor 360 neste ciclo.
 
 ## Antes de escrever código
 
-1. Leia `AGENTS.md` e toda a ordem obrigatória.
-2. Inspecione o repositório e confirme que não há implementação anterior.
-3. Liste decisões técnicas que ainda bloqueiam o scaffold, especialmente package name, minSdk e estratégia de módulos.
-4. Proponha um plano de no máximo cinco entregas verticais.
-5. Aguarde aprovação apenas para escolhas que mudem materialmente o produto; faça escolhas conservadoras e registre as demais.
+1. Leia `AGENTS.md` e a ordem obrigatória.
+2. Leia `docs/12-divisao-rin-aiworkstation.md`.
+3. Compare o contrato do RIN com os schemas propostos.
+4. Confirme que não há implementação anterior.
+5. Proponha no máximo cinco entregas verticais.
+6. Registre escolhas em ADR e evite arquitetura fictícia.
 
 ## Princípios técnicos
 
-- Kotlin e Compose idiomáticos.
-- Coroutines/Flow para estado assíncrono.
-- Room como fonte local.
-- ViewModels com estado de tela explícito.
-- Interfaces pequenas e orientadas ao domínio.
-- Sem dependência de LLM no núcleo.
-- Sem porcentagem de progresso inventada.
-- Datas/horários armazenados de forma inequívoca.
-- Acessibilidade, alvos de toque e uso mobile como requisitos.
-- Sem segredo, dado bancário ou telemetria invasiva.
+- contratos independentes de provedor;
+- estado persistido antes de evento;
+- comandos tipados e idempotentes;
+- fake adapters nos testes comuns;
+- CLIs reais apenas em testes opt-in;
+- sem shell genérico;
+- sem segredo ou dado bancário;
+- sem falso sucesso;
+- datas em UTC;
+- capability negotiation;
+- recuperação após reinício.
 
-## Primeira entrega proposta
+## Primeira entrega demonstrável
 
-### Vertical 1 — projeto persistente
+1. iniciar o serviço;
+2. consultar health/version/capabilities;
+3. listar três projetos simulados;
+4. receber erro estruturado para ID inválido;
+5. reiniciar e manter coerência;
+6. rodar a suíte de contrato que o fake gateway do RIN também usa.
 
-Fluxo demonstrável:
+## Relato de entrega
 
-1. abrir o app;
-2. ver estado vazio;
-3. criar um projeto com nome, descrição, status e prioridade;
-4. voltar à Home e vê-lo persistido;
-5. fechar/reabrir e confirmar persistência;
-6. editar status e próximo passo.
-
-Critérios:
-
-- processo sobrevive a reinício;
-- validações claras;
-- teste unitário do domínio;
-- teste do DAO/repositório;
-- teste de UI do caminho principal;
-- documentação e `PROJECT_STATE.md` atualizados.
-
-## Forma de trabalho
-
-Para cada incremento, entregue:
-
-- item do backlog;
-- o que mudou;
-- decisões e trade-offs;
-- arquivos principais;
-- testes executados e resultados;
-- riscos/limitações;
-- próximo incremento sugerido.
-
-Pare se encontrar credenciais, dados reais, conflito de escopo ou necessidade de ação destrutiva. Não declare sucesso sem verificar o efeito final.
-
+Informe item do backlog, mudanças, ADRs, testes/resultados, evidências, riscos, limitações e próximo incremento. Pare diante de credenciais, dados reais, conflito de escopo ou ação destrutiva não autorizada.
