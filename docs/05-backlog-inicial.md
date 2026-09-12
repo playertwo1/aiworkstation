@@ -1,70 +1,72 @@
-# Backlog inicial
+# Backlog inicial da AI Workstation
 
-## Épico A — Continuidade
+## Épico AW-A — Contratos
 
-- PV-001 — Cadastrar um projeto.
-- PV-002 — Alterar status e prioridade.
-- PV-003 — Registrar checkpoint estruturado.
-- PV-004 — Consultar histórico de checkpoints.
-- PV-005 — Exibir “Onde parei?” determinístico.
-- PV-006 — Marcar informação desatualizada.
-- PV-007 — Registrar fonte de uma afirmação.
+- AW-001 — Schema versionado de health/capabilities.
+- AW-002 — Project, Checkpoint, Decision e WorkItem.
+- AW-003 — Session, Event, Handoff e Approval.
+- AW-004 — Error envelope e códigos estáveis.
+- AW-005 — Idempotência e cursor.
+- AW-006 — Testes de contrato compartilháveis com RIN.
 
-## Épico B — Gestão visual
+## Épico AW-B — Serviço e persistência
 
-- PV-010 — Home com status e próxima ação.
-- PV-011 — Filtrar por prioridade/status.
-- PV-012 — Exibir projeto bloqueado com motivo.
-- PV-013 — Tela de detalhe orientada à retomada.
-- PV-014 — Acessibilidade e uso confortável no Galaxy S25 Ultra.
+- AW-010 — ADR Fastify versus Ktor.
+- AW-011 — Scaffold do serviço headless.
+- AW-012 — Banco e migrações.
+- AW-013 — Event log append-only.
+- AW-014 — Recuperação após reinício.
+- AW-015 — Exportação e backup atômicos.
 
-## Épico C — Persistência e sincronização
+## Épico AW-C — API e segurança
 
-- PV-020 — Banco Room com migrações testadas.
-- PV-021 — Operar offline.
-- PV-022 — Exibir estado de sincronização.
-- PV-023 — Resolver conflitos sem sobrescrita silenciosa.
-- PV-024 — Exportar/backup em formato aberto.
+- AW-020 — `GET /health` com version/capabilities.
+- AW-021 — Projetos e detalhe.
+- AW-022 — Eventos por cursor.
+- AW-023 — Comandos tipados/idempotentes.
+- AW-024 — Pairing e revogação de dispositivo.
+- AW-025 — Rate limit, timeout e auditoria.
+- AW-026 — Approval com hash e expiração.
 
-## Épico D — GitHub
+## Épico AW-D — Git
 
-- PV-030 — Conectar e revogar GitHub.
-- PV-031 — Selecionar repositório.
-- PV-032 — Ler branches e último commit.
-- PV-033 — Ler issues e PRs relevantes.
-- PV-034 — Relacionar checkpoint a uma fonte GitHub.
-- PV-035 — Cache, rate limit e falhas recuperáveis.
+- AW-030 — Raízes autorizadas.
+- AW-031 — Status, branch e HEAD.
+- AW-032 — Diff/commits e arquivos não rastreados.
+- AW-033 — GitHub em leitura.
+- AW-034 — Sanitização e evidências.
+- AW-035 — FakeGitRepository.
 
-## Épico E — Nó headless
+## Épico AW-E — Sessões
 
-- PV-040 — Parear celular e nó.
-- PV-041 — Ver saúde e versão.
-- PV-042 — Ver recursos reais.
-- PV-043 — Executar comando permitido.
-- PV-044 — Cancelar tarefa.
-- PV-045 — Auditar toda ação.
-- PV-046 — Suspender e restaurar serviços não essenciais.
+- AW-040 — AgentRuntimeProvider.
+- AW-041 — FakeAgent determinístico.
+- AW-042 — Fila serial por projeto.
+- AW-043 — Supervisor e cancelamento.
+- AW-044 — Reconciliação de órfãos.
+- AW-045 — Estados/erros sem falso sucesso.
 
-## Épico F — Agentes e conhecimento (posterior)
+## Épico AW-F — Integrações posteriores
 
-- PV-050 — Adaptador de Knowledge Hub.
-- PV-051 — Exportação Markdown/Obsidian.
-- PV-052 — Interface de runtime de agente.
-- PV-053 — Spike Hermes.
-- PV-054 — Sessão isolada por projeto.
-- PV-055 — Revisar diff e resultado.
-- PV-056 — Approval Gate.
-- PV-057 — Learning Gate.
+- AW-050 — Primeiro adaptador real.
+- AW-051 — POC e adaptador Hermes.
+- AW-052 — KnowledgeProvider/Markdown.
+- AW-053 — Obsidian opcional.
+- AW-054 — Handoff Manifest e AI Shift.
+- AW-055 — Learning Gate.
+- AW-056 — Monitor de recursos e Modo Jogo.
 
-## Ordem recomendada para o primeiro ciclo Astra
+## Primeira sequência para Codex Astra
 
-1. PV-001
-2. PV-002
-3. PV-003
-4. PV-004
-5. PV-005
-6. PV-010
-7. PV-013
-8. PV-020
-9. PV-021
+1. AW-001
+2. AW-002
+3. AW-004
+4. AW-005
+5. AW-006
+6. AW-010
+7. AW-011
+8. AW-020
+9. AW-021
+10. AW-022
 
+O código Android pertence a `playertwo1/rin`.
