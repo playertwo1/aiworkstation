@@ -16,10 +16,11 @@ Atualizado em: 2026-09-11
 - Arquitetura conceitual e roadmap incremental definidos.
 - Hipóteses de Hermes, Obsidian e provedores isoladas para validação.
 - Briefing inicial para Codex Astra criado.
+- Trilha Hermes elevada a uma linha de trabalho explícita desde a Fase 0.
 
 ## Próxima decisão
 
-Executar o Marco 0.1 do roadmap: validar objetivos, escolher nome técnico/package Android e confirmar a configuração exata do ambiente do Galaxy Book quando ele chegar.
+Executar em paralelo o Marco 0.1 do produto e preparar o protocolo do POC Hermes H0. A execução do POC aguarda o Galaxy Book ou ambiente headless equivalente.
 
 ## Não iniciado
 
@@ -28,4 +29,3 @@ Executar o Marco 0.1 do roadmap: validar objetivos, escolher nome técnico/packa
 - Contrato de API.
 - Integração GitHub.
 - Spikes Hermes e Obsidian.
-
