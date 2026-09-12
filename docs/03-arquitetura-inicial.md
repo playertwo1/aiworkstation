@@ -1,99 +1,78 @@
-# Arquitetura inicial
+# Arquitetura inicial da AI Workstation
 
-## Topologia alvo
+## Topologia
 
 ```mermaid
 flowchart TD
-    A["Android — Control Plane"] --> B["API segura"]
-    B --> C["Galaxy Book — Node headless"]
-    C --> D["GitHub — código"]
-    C --> E["Knowledge adapter — futuro"]
-    C --> F["Agent runtime — futuro"]
+    A["RIN Android"] --> B["API v1 + Event Stream"]
+    B --> C["Application Core"]
+    C --> D["State DB + Event Log"]
+    C --> E["Git / GitHub Adapters"]
+    C --> F["Agent Runtime Adapters"]
+    C --> G["Knowledge / Automation Adapters"]
 ```
 
-## Entrega em duas etapas
+## Camadas
 
-### Etapa A — MVP local-first
+### API e segurança
 
-```mermaid
-flowchart LR
-    A["Compose UI"] --> B["ViewModel"]
-    B --> C["Casos de uso"]
-    C --> D["Room"]
-    C --> E["GitHub adapter"]
+- API versionada em `/api/v1`.
+- Pareamento e identidade revogável de dispositivo.
+- Intenções tipadas, idempotência, rate limit e erros estruturados.
+- WebSocket ou SSE decidido por ADR.
+- Sem shell genérico.
+
+### Application Core
+
+- projetos, sessões, checkpoints, eventos, handoffs e approvals;
+- policy engine;
+- fila serial por projeto;
+- supervisor, timeout, cancelamento e recuperação;
+- capabilities por adaptador.
+
+### Persistência
+
+- banco transacional como autoridade operacional;
+- event log append-only;
+- exportações atômicas e recuperáveis;
+- evidência vinculada às afirmações;
+- segredos fora de banco comum e logs.
+
+### Adaptadores
+
+- Git/GitHub;
+- `AgentRuntimeProvider` para fake, Codex, Claude, Antigravity e Hermes;
+- `KnowledgeProvider` para Markdown/Obsidian;
+- automações determinísticas;
+- monitor de recursos.
+
+## Fontes de verdade
+
+| Domínio | Autoridade |
+|---|---|
+| Código e commits | Git/GitHub |
+| Estado operacional | banco/event log da AI Workstation |
+| Conhecimento permanente | Markdown/Obsidian, se adotado |
+| Memória curta | runtime, nunca canônica isoladamente |
+| Procedimentos | skills versionadas e aprovadas |
+| Cache e preferências móveis | RIN/Room |
+
+## Contrato com RIN
+
+A plataforma publica health, capabilities, projetos, eventos, comandos e approvals. Mudanças incompatíveis exigem nova versão. O RIN nunca acessa banco, filesystem, CLI ou formato interno de provedor diretamente.
+
+## Estrutura pretendida
+
+```text
+apps/node/
+packages/contracts/
+packages/core/
+packages/persistence/
+packages/adapters/
+tools/simulators/
+docs/adr/
 ```
 
-- Android nativo com Kotlin e Jetpack Compose.
-- Material 3.
-- Arquitetura em camadas, evitando complexidade prematura.
-- Room como armazenamento local.
-- WorkManager para sincronizações adiáveis.
-- GitHub atrás de uma interface de repositório.
+## Recursos
 
-### Etapa B — nó headless
-
-- Serviço leve no Galaxy Book, preferencialmente em WSL/Linux.
-- API autenticada e restrita.
-- Descoberta de capacidades do nó.
-- Filas de tarefas, logs estruturados e idempotência.
-- Runtime de agentes escolhido somente após spike.
-
-## Componentes e fontes de verdade
-
-| Domínio | Fonte de verdade | Observação |
-|---|---|---|
-| Código e commits | Git/GitHub | Nunca inferir código atual só pela memória |
-| Estado exibido no MVP | Banco local do app | Sincronizável e auditável |
-| Conhecimento permanente | Obsidian, se adotado | Markdown; não é banco operacional |
-| Memória de agente | Runtime de agente | Curta/operacional e governada |
-| Procedimentos | Skills versionadas | Mudança via proposta e aprovação |
-| Dados estruturados futuros | PostgreSQL | Especialmente serviços compartilhados |
-| Automação determinística | n8n/scripts | Não usar LLM quando regra basta |
-
-## Entidades iniciais
-
-### Project
-
-`id`, `name`, `description`, `status`, `priority`, `repositoryUrl`, `defaultBranch`, `workingBranch`, `currentAgent`, `blockedReason`, `nextStep`, `createdAt`, `updatedAt`.
-
-### Checkpoint
-
-`id`, `projectId`, `summary`, `workDone`, `decisions`, `problems`, `nextStep`, `agent`, `createdAt`, `sourceType`, `sourceRef`.
-
-### Decision
-
-`id`, `projectId`, `title`, `context`, `decision`, `consequences`, `status`, `createdAt`.
-
-### WorkItem
-
-`id`, `projectId`, `type`, `title`, `status`, `priority`, `sourceRef`, `updatedAt`.
-
-### SyncState
-
-`entityType`, `entityId`, `localVersion`, `remoteVersion`, `state`, `lastAttemptAt`, `errorCode`.
-
-## Contratos antes de integrações
-
-Interfaces sugeridas:
-
-- `ProjectRepository`
-- `CheckpointRepository`
-- `SourceControlProvider`
-- `KnowledgeProvider`
-- `AgentRuntimeProvider`
-- `NodeGateway`
-- `ApprovalService`
-- `ResourceMonitor`
-
-O MVP implementa apenas as necessárias. As demais podem começar como contratos/documentação, sem frameworks ou serviços falsos.
-
-## Recursos do Galaxy Book
-
-O desenho considera 32 GB de RAM e execução headless. Orçamento preliminar, a ser medido na máquina real:
-
-- manter reserva de RAM para Windows e desenvolvimento;
-- limitar concorrência de workers;
-- suspender serviços não essenciais em bateria ou sob pressão;
-- permitir futuro “Modo Jogo” com pausa e retomada segura;
-- nunca depender de percentuais estimados sem telemetria real.
-
+O Galaxy Book6 Pro de 32 GB roda serviços headless. Concorrência, RAM, CPU, disco e energia serão medidos. Workers ficam ociosos/suspensos quando possível, e o futuro Modo Jogo deverá pausar e restaurar serviços com estado persistido.
