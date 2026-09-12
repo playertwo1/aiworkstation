@@ -2,135 +2,107 @@
 
 ## Papel esperado
 
-Hermes é o principal candidato a **runtime/orquestrador de agentes** do Projeto Vivo. Ele pode evitar que o projeto reconstrua do zero recursos genéricos como sessões, profiles, busca de histórico, skills, memória, cron, subagentes, approvals e execução controlada.
+Hermes é candidato a runtime/orquestrador de agentes da **AI Workstation**. Pode evitar reconstruir sessões, profiles, busca, skills, memória operacional, cron, subagentes, approvals e execução controlada.
 
-Hermes não é o Projeto Vivo. O aplicativo continua responsável pela experiência móvel, estado do projeto, evidências, permissões e decisões do usuário.
+Hermes não é a AI Workstation nem o RIN. A plataforma preserva estado, contratos, políticas e evidências; o RIN oferece a experiência móvel.
 
-## Posição na arquitetura
+## Posição
 
 ```mermaid
 flowchart TD
-    A["Projeto Vivo Android"] --> B["API segura do nó"]
+    A["RIN Android"] --> B["AI Workstation API"]
     B --> C["AgentRuntimeProvider"]
     C --> D["Adaptador Hermes"]
     D --> E["Hermes Runtime"]
     E --> F["Codex / Claude / outros"]
 ```
 
-O `AgentRuntimeProvider` é a fronteira obrigatória. Nenhuma tela, caso de uso ou banco principal deverá depender diretamente de classes, arquivos ou formatos internos do Hermes.
+`AgentRuntimeProvider` é fronteira obrigatória. API, domínio e banco principal não dependem de formatos internos do Hermes.
 
-## Fase H0 — POC antes da adoção
+## Fase H0 — POC
 
-Executar em ambiente isolado e repositório descartável:
+Em ambiente isolado e repositório descartável:
 
-1. Instalar no ambiente headless equivalente ao futuro Galaxy Book/WSL.
-2. Registrar versão, licença, método de atualização e maturidade do projeto.
-3. Criar um profile de teste do Projeto Vivo.
-4. Iniciar, observar, cancelar e retomar uma sessão.
-5. Testar persistência e pesquisa de sessões.
-6. Testar uma skill simples e versionada.
-7. Testar proposta de memória/skill com aprovação, sem autopromoção.
-8. Testar um subagente e consolidar o resultado.
-9. Testar cron com tarefa sem LLM e tarefa com agente.
-10. Validar sandbox, isolamento de workspace e bloqueio de comando destrutivo.
-11. Validar autenticação oficial de cada provider separadamente.
-12. Medir RAM, CPU, disco, tempo de inicialização e comportamento em falha.
+1. Instalar em ambiente equivalente ao Galaxy Book/WSL.
+2. Registrar versão, licença, atualização e maturidade.
+3. Criar profile de teste.
+4. Iniciar, observar, cancelar e retomar sessão.
+5. Testar persistência e pesquisa.
+6. Testar skill simples e versionada.
+7. Testar proposta de memória/skill sem autopromoção.
+8. Testar subagente e consolidação.
+9. Testar cron com e sem LLM.
+10. Validar sandbox, workspace e bloqueio destrutivo.
+11. Validar autenticação oficial de cada provider.
+12. Medir RAM, CPU, disco, início e falhas.
 
-## Casos de prova
+## Provas
 
-### H0-01 — Onde parei?
-
-Hermes recebe um repositório descartável, encontra arquivos contextuais permitidos, consulta a sessão anterior e devolve um resumo com fontes. O resumo é comparado com Git e checkpoints conhecidos.
-
-### H0-02 — Passar turno
-
-Um agente encerra uma tarefa com checkpoint estruturado; uma segunda sessão recebe somente o contexto necessário e consegue explicar estado, decisão, bloqueio e próxima ação.
-
-### H0-03 — Cancelamento real
-
-Uma tarefa longa é cancelada. O processo encerra, o estado fica coerente e o sistema não declara sucesso.
-
-### H0-04 — Learning Gate
-
-O runtime propõe uma memória ou skill. A proposta permanece fora de produção até aprovação explícita; rejeição não pode ser contornada.
-
-### H0-05 — Falha e recuperação
-
-O processo é reiniciado durante uma tarefa. O Projeto Vivo identifica o estado como interrompido, recupera evidências e permite retomada segura.
+- **H0-01 Onde parei:** resumo comparado com Git/checkpoints.
+- **H0-02 AI Shift:** segunda sessão compreende estado, decisão, bloqueio e próximo passo.
+- **H0-03 Cancelamento:** processo encerra e não aparece como sucesso.
+- **H0-04 Learning Gate:** proposta não entra em produção sem aprovação.
+- **H0-05 Recuperação:** reinício gera estado interrompido e retomável.
 
 ## Matriz de decisão
-
-Cada item recebe evidência e nota de 0 a 3:
 
 | Critério | Peso |
 |---|---:|
 | Segurança e approvals | 5 |
 | Persistência e retomada | 5 |
 | Cancelamento e verdade do estado | 5 |
-| Compatibilidade headless Windows/WSL | 4 |
-| Integração por API/eventos | 4 |
+| Compatibilidade Windows/WSL | 4 |
+| API/eventos | 4 |
 | Isolamento por projeto | 4 |
-| Providers oficiais realmente utilizáveis | 3 |
+| Providers oficiais | 3 |
 | Skills, sessões e busca | 3 |
 | Consumo de recursos | 3 |
-| Licença, manutenção e atualizações | 3 |
+| Licença e manutenção | 3 |
 
-Possíveis decisões:
+Decisão: `adotar por adaptador`, `adaptar componentes`, `continuar estudando` ou `descartar`.
 
-- **Adotar por adaptador:** atende aos critérios críticos e permanece substituível.
-- **Adaptar componentes:** aproveitar ideias ou módulos sem usar o runtime inteiro.
-- **Continuar estudando:** evidência insuficiente; não bloquear o MVP.
-- **Descartar:** risco, incompatibilidade ou custo supera o benefício.
+## Integração, se aprovada
 
-## Integração progressiva, se aprovado
+### H1 — Serviço isolado
 
-### H1 — Serviço no nó
+- roda no Galaxy Book/WSL;
+- somente capabilities permitidas;
+- sessão/workspace por projeto;
+- recursos limitados;
+- tokens nunca chegam ao RIN.
 
-- Hermes roda no Galaxy Book, nunca dentro do app Android.
-- API do nó oferece capabilities explícitas, não shell genérico.
-- Uma sessão e workspace por projeto/tarefa.
-- Recursos e concorrência limitados.
+### H2 — Retomada
 
-### H2 — Retomada assistida
+- lê Git, estado, checkpoints e contexto autorizado;
+- produz proposta com evidências;
+- aguarda políticas.
 
-- ler Git, `PROJECT_STATE.md`, checkpoints e contexto autorizado;
-- produzir “Onde parei?” com evidências;
-- propor plano e aguardar política de autorização.
+### H3 — Execução
 
-### H3 — Execução controlada
-
-- trabalhar apenas em branch/worktree isolada;
-- transmitir eventos estruturados;
-- permitir cancelamento;
-- mostrar diff e testes;
+- branch/worktree isolada;
+- eventos estruturados;
+- cancelamento;
+- diff e testes;
 - push/PR/merge conforme política explícita.
 
-### H4 — Skills e aprendizado
+### H4 — Aprendizado
 
-- propostas classificadas como memória, procedimento ou regra;
-- evidências obrigatórias;
-- validação automática;
+- proposta classificada;
+- evidências e validação;
 - aprovação de Rafael;
 - versionamento e rollback.
 
-## Relação com outros componentes
+## Hermes não substitui
 
-| Componente | Responsabilidade | Hermes não deve substituir |
-|---|---|---|
-| Git/GitHub | Verdade do código | histórico e branches |
-| Room/PostgreSQL | Estado estruturado | banco principal |
-| Obsidian | Conhecimento permanente | Knowledge Hub |
-| n8n/scripts | Fluxos determinísticos e integrações | automação previsível |
-| Projeto Vivo | Controle, UX, evidências e políticas | produto principal |
+| Componente | Responsabilidade |
+|---|---|
+| Git/GitHub | verdade do código |
+| Banco/event log | estado operacional |
+| Obsidian | conhecimento permanente |
+| n8n/scripts | automação determinística |
+| AI Workstation | contratos, políticas, auditoria e plataforma |
+| RIN | UX, decisões e controle móvel |
 
-## Limites inegociáveis
+## Limites
 
-- não modificar projetos reais durante o POC;
-- não armazenar tokens no Android, Git ou logs;
-- não expor shell genérico;
-- não burlar quotas, planos ou termos de assinatura;
-- não promover memória, skill ou regra automaticamente;
-- não fazer force-push, limpeza destrutiva ou mudança de remote;
-- não declarar sucesso sem confirmar o efeito;
-- não transformar Hermes em fonte única do estado do projeto.
-
+Sem projeto real no POC, token no RIN/Git/log, shell genérico, burla de quota, autopromoção, ação destrutiva, falso sucesso ou Hermes como fonte única do estado.
