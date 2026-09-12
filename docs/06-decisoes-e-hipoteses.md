@@ -4,39 +4,42 @@
 
 | ID | Decisão | Motivo |
 |---|---|---|
-| D-001 | Foco inicial somente no Projeto Vivo | Reduz dispersão de um projeto grande |
-| D-002 | Android é o Control Plane | Uso prioritário pelo celular |
-| D-003 | Galaxy Book é o Execution Node headless | Centraliza serviços e reduz carga no celular |
-| D-004 | GitHub é a verdade do código | Histórico e colaboração já consolidados |
-| D-005 | Local-first no MVP | Valor e validação antes de backend complexo |
-| D-006 | “Onde parei?” vem antes de “Continuar” | Continuidade é o risco/valor principal |
-| D-007 | Aprovação humana para ações críticas | Segurança e governança |
-| D-008 | Obsidian, Hermes e provedores são adaptadores opcionais | Evita lock-in prematuro |
+| D-001 | AI Workstation é a plataforma headless central | Elimina dois backends concorrentes |
+| D-002 | RIN é o aplicativo Android/Control Plane | Mantém UX móvel em repositório próprio |
+| D-003 | Projeto Vivo é o primeiro módulo do RIN | Evita terceiro produto sobreposto |
+| D-004 | “RIN Server” passa a ser AI Workstation Node/API | Consolida execução, memória e políticas |
+| D-005 | Git/GitHub é a verdade do código | Estado verificável |
+| D-006 | Banco/event log da plataforma é a verdade operacional | Recuperação e auditoria |
+| D-007 | Integração usa contrato v1 e capabilities | Evolução independente |
+| D-008 | RIN nunca acessa CLI, filesystem ou banco do nó diretamente | Segurança e desacoplamento |
+| D-009 | Aprovação humana para ações críticas | Governança |
+| D-010 | Hermes, Obsidian e provedores são adaptadores opcionais | Evita lock-in |
+| D-011 | MVP começa por fake + contrato, depois Git leitura | Reduz risco |
+| D-012 | Diretor 360 permanece fora do MVP | Separação de domínios e dados |
 
 ## Hipóteses a validar
 
 | ID | Hipótese | Como validar |
 |---|---|---|
 | H-001 | Hermes economiza infraestrutura genérica | Spike isolado com métricas e ADR |
-| H-002 | Obsidian melhora continuidade sem aumentar manutenção | Exportação Markdown + teste real de uso |
-| H-003 | O resumo determinístico já resolve boa parte de “onde parei?” | Uso por uma semana em três projetos |
-| H-004 | Nó headless cabe confortavelmente em 32 GB | Medir idle, pico, build e múltiplos serviços |
-| H-005 | Integrações oficiais permitem usar alguns planos/assinaturas | Conferir documentação/termos e autenticar em ambiente de teste |
-| H-006 | Fallback entre providers agrega valor | Medir falhas, custo, qualidade e fricção; começar manual |
+| H-002 | Obsidian melhora continuidade | Exportação Markdown + uso real |
+| H-003 | Contrato mínimo cobre o Projeto Vivo | Fake e cliente RIN com testes compartilhados |
+| H-004 | Nó headless cabe confortavelmente em 32 GB | Medir idle, pico, build e concorrência |
+| H-005 | Integrações oficiais permitem alguns planos | Validar documentação, termos e autenticação |
+| H-006 | Fallback entre providers agrega valor | Começar manual e medir falha/custo/fricção |
 
 ## Questões abertas
 
-- Nome técnico e package Android.
-- Repositório monorepo ou apps separados após o MVP.
-- Autenticação GitHub: OAuth/App/device flow adequado ao cenário pessoal.
-- Transporte Android ↔ notebook: rede local, túnel privado ou gateway externo.
-- Necessidade real de backend central antes do nó headless.
+- Fastify ou Ktor para o nó.
+- SQLite ou PostgreSQL no piloto.
+- REST + WebSocket ou REST + SSE.
+- Pareamento e acesso fora da rede local.
+- Formato/repositório do pacote de contratos.
 - Obsidian Sync, Git ou outro mecanismo para o Vault.
 - Hermes: adotar, adaptar ou somente estudar padrões.
 - Política de backup e recuperação.
 - Projetos-piloto definitivos.
 
-## Regra para alegações externas
+## Regra externa
 
-Suporte de OAuth, assinatura, quotas, integrações e recursos de terceiros muda com o tempo. Antes de implementação, toda alegação deve ser revalidada em documentação oficial, registrar data/versão e receber um status: `confirmado`, `parcial`, `não suportado` ou `incerto`.
-
+Recursos, OAuth, assinaturas e quotas mudam. Revalidar em documentação oficial, registrar data/versão e classificar: `confirmado`, `parcial`, `não suportado` ou `incerto`.
