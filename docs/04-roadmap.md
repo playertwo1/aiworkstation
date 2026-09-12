@@ -1,222 +1,129 @@
-# Roadmap em pequenas partes
+# Roadmap da AI Workstation
 
-Não há datas artificiais. Cada marco termina com evidência demonstrável e decisão de continuar, ajustar ou descartar.
+Este roadmap cobre a plataforma no computador. UI Android e Projeto Vivo são implementados em `playertwo1/rin`.
 
-## Duas trilhas desde o início
+## Fase 0 — Fronteira e redução de risco
 
-O Projeto Vivo será desenvolvido em duas trilhas coordenadas:
+### 0.1 Contrato v1
 
-| Trilha | Começa | Objetivo | Regra |
-|---|---|---|---|
-| Produto Android | Fase 0 | Provar “Onde parei?” e continuidade | Não depender do Hermes |
-| Hermes Runtime | Fase 0 | Descobrir se Hermes serve como motor de agentes | POC isolado, sem modificar projetos reais |
+- consolidar entidades Project, Session, Event, Checkpoint, Handoff, Approval e Error;
+- health, version e capabilities;
+- idempotência e cursor de eventos;
+- testes de contrato consumíveis pelo RIN;
+- ADR de versionamento e transporte.
 
-O Hermes não foi adiado para o fim. Sua investigação começa antes do código de produção, mas a integração só acontece depois de evidência suficiente. Detalhes completos estão em `docs/11-trilha-hermes.md`.
+**Saída:** fake server e fake gateway do RIN passam a mesma suíte.
 
-## Fase 0 — Fundação
+### 0.2 Stack do nó
 
-### Marco 0.1 — Alinhar o produto
+- comparar Fastify e Ktor por spike/ADR;
+- escolher SQLite ou PostgreSQL para o piloto;
+- definir instalação headless Windows/WSL;
+- configurar lint, testes, build e CI.
 
-- validar a promessa central;
-- confirmar o nome “Projeto Vivo” e o nome técnico;
-- escolher os três projetos-piloto;
-- confirmar package Android e política de versões;
-- registrar configuração real do Galaxy Book após a chegada.
+**Saída:** serviço inicia do zero e responde health.
 
-**Aceite:** uma página de visão aprovada e questões abertas classificadas.
+### 0.3 Spikes externos
 
-### Marco 0.2 — Protótipo de fluxo
+- validar Git/GitHub;
+- iniciar POC Hermes isolado;
+- medir providers oficiais, autenticação, termos e limites;
+- testar Markdown/Obsidian sem torná-lo obrigatório;
+- medir suspensão/retomada e consumo de recursos.
 
-- wireframes de home, detalhe e checkpoint;
-- testar navegação 100% no celular;
-- validar linguagem e densidade de informação;
-- evitar botão “Continuar” que prometa execução ainda inexistente.
+**Saída:** evidência reproduzível e ADRs; nenhum acoplamento sem aprovação.
 
-**Aceite:** Rafael consegue simular a retomada de um projeto sem explicação externa.
+## Fase 1 — Núcleo persistente
 
-### Marco 0.3 — Spikes de risco
+- projetos e raízes autorizadas;
+- banco transacional e event log;
+- snapshots, checkpoints, decisões e work items;
+- erros estruturados;
+- exportação/backup atômico;
+- recuperação após reinício.
 
-- autenticação GitHub e limites mínimos;
-- iniciar a Trilha Hermes com POC isolado e repositório descartável;
-- validar instalação headless, licença, manutenção, API real e compatibilidade com Windows/WSL;
-- testar profiles, sessões, busca, memória, skills, approvals, cancelamento e eventos;
-- medir providers realmente disponíveis, autenticação oficial, limites e consumo;
-- comparar integração direta via `AgentRuntimeProvider` com adoção mais profunda;
-- Obsidian: arquivos Markdown primeiro; CLI/Headless como opção;
-- comunicação segura Android ↔ nó headless;
-- prova de suspensão/retomada de serviço sem perda de estado.
+**Gate F1:** estado reconstruído sem chat proprietário e sem perda após reinício.
 
-**Aceite Hermes:** demonstração reproduzível e um parecer preliminar `promissor`, `limitado` ou `inviável`. Isso ainda não autoriza acoplamento ao app.
+## Fase 2 — API para RIN
 
-**Aceite geral:** relatório reproduzível com passou/falhou, evidência e recomendação para cada spike.
+- pairing e dispositivo revogável;
+- projetos/detalhe;
+- eventos incrementais;
+- comandos tipados simulados;
+- approvals simuladas;
+- rate limit, timeout e auditoria;
+- compatibilidade por capabilities.
 
-### Marco 0.4 — Gate Hermes H0
+**Gate F2:** integração real RIN ↔ nó passa cenários online, offline, reconexão e conflito.
 
-- consolidar evidências do POC;
-- comparar Hermes com runtime próprio mínimo;
-- registrar lacunas, riscos de lock-in e esforço de adaptação;
-- decidir uma das opções: `adotar por adaptador`, `adaptar componentes`, `continuar estudando` ou `descartar`;
-- criar ADR com a decisão.
+## Fase 3 — Git em leitura
 
-**Gate H0:** nenhuma funcionalidade do MVP Android pode depender do Hermes antes deste gate.
+- roots allowlisted e caminhos canônicos;
+- branch, HEAD, working tree, diff e commits;
+- adaptador GitHub em leitura;
+- vínculo de evidência;
+- sanitização de segredos/conteúdo.
 
-## Fase 1 — Aplicativo local
+**Gate F3:** três repositórios exibem estado correto no RIN, sem acesso fora das raízes.
 
-### Marco 1.1 — Casca Android
+## Fase 4 — Sessões simuladas
 
-- projeto Kotlin/Compose;
-- tema Material 3;
-- navegação;
-- CI mínima;
-- testes unitários e de UI essenciais.
+- `AgentRuntimeProvider`;
+- FakeAgent determinístico;
+- fila serial por projeto;
+- supervisor, timeout, cancelamento e interrupção;
+- reconciliação de processos órfãos;
+- eventos persistidos antes da transmissão.
 
-### Marco 1.2 — Projetos persistentes
+**Gate F4:** falha nunca aparece como sucesso e cancelamento deixa auditoria coerente.
 
-- schema Room e migração inicial;
-- CRUD de projetos;
-- Home com filtros;
-- estados vazios, erro e carregamento.
+## Fase 5 — Primeiro adaptador real
 
-### Marco 1.3 — Checkpoints
+- matriz atual de capabilities dos provedores;
+- autenticação oficial e revogável;
+- primeiro adaptador escolhido por evidência;
+- workspace/branch isolados;
+- diff, testes e resultado;
+- nenhum push/merge automático.
 
-- criação e edição;
-- histórico cronológico;
-- decisões, bloqueios e próximo passo;
-- rastreabilidade por fonte.
+**Gate F5:** tarefa reversível em repositório de teste termina com evidência.
 
-### Marco 1.4 — “Onde parei?” local
+## Fase 6 — Hermes, se aprovado
 
-- composição determinística do resumo a partir do último checkpoint e pendências;
-- sem IA obrigatória;
-- indicação de desatualização.
+- concluir Gate H0 conforme `docs/11-trilha-hermes.md`;
+- hospedar por adaptador isolado;
+- sessões/workspaces separados;
+- limites de CPU/RAM/concorrência;
+- falha do Hermes não derruba núcleo;
+- substituição por fake/alternativo sem perder estado.
 
-**Gate F1:** usar três projetos reais durante uma semana sem perda de dados.
+**Gates H1/H2:** tolerância a falha e substituibilidade comprovadas.
 
-## Fase 2 — GitHub em modo leitura
+## Fase 7 — Memória e AI Shift
 
-### Marco 2.1 — Conexão segura
+- Handoff Manifest versionado;
+- snapshot, hashes e prévia;
+- congelamento de concorrência;
+- confirmação do agente de destino;
+- retry sem perda da origem;
+- Learning Gate para memória/skills/regras.
 
-- autenticação adequada para app pessoal;
-- token fora do banco e dos logs;
-- revogação e reconexão;
-- escopo mínimo.
+## Fase 8 — Knowledge Hub e automações
 
-### Marco 2.2 — Estado Git
+- exportação Markdown;
+- Obsidian opcional;
+- n8n/scripts para regras determinísticas;
+- tarefas agendadas governadas;
+- backup e recuperação testados.
 
-- repositório e branches;
-- último commit;
-- issues e PRs selecionados;
-- cache e sincronização manual.
+## Fase 9 — Piloto e expansão
 
-### Marco 2.3 — Resumo com evidências
+- piloto diário com RIN;
+- métricas de retomada, falha e recursos;
+- acesso remoto zero-trust;
+- Modo Jogo com pausa/restauração segura;
+- multi-PC e novos módulos apenas após estabilidade.
 
-- juntar checkpoint local e GitHub;
-- cada trecho aponta para sua fonte;
-- conflito entre relato e Git fica visível.
+## Fora deste repositório
 
-**Gate F2:** o resumo reproduz corretamente o estado de três repositórios.
-
-## Fase 3 — Nó headless
-
-### Marco 3.1 — Agente do nó
-
-- serviço instalável no Galaxy Book/WSL;
-- health check;
-- pairing seguro;
-- capacidade e versão reportadas ao app.
-
-### Marco 3.2 — Observabilidade
-
-- CPU, RAM, disco, energia e serviços;
-- logs estruturados;
-- estados online/offline/degradado;
-- limites de concorrência.
-
-### Marco 3.3 — Comandos não destrutivos
-
-- sincronizar repositório;
-- verificar status;
-- coletar contexto;
-- cancelar tarefa;
-- idempotência e timeout.
-
-**Gate F3:** executar comandos permitidos do celular, com auditoria e sem shell arbitrário.
-
-### Marco 3.4 — Hospedar o adaptador Hermes, se aprovado
-
-- executar o Hermes no Galaxy Book/WSL como serviço isolado;
-- expor somente capacidades permitidas pelo `AgentRuntimeProvider`;
-- separar sessões e workspaces por projeto;
-- health check, cancelamento, timeout e recuperação de falhas;
-- limites de CPU, RAM e concorrência;
-- nenhum token no Android ou nos logs.
-
-**Gate H1:** o nó continua seguro e funcional quando o Hermes falha, reinicia ou fica indisponível.
-
-## Fase 4 — Knowledge Hub
-
-### Marco 4.1 — Exportação Markdown
-
-- estrutura de Vault proposta;
-- exportar checkpoints e decisões;
-- links estáveis e metadados legíveis;
-- Git opcional para o Vault sem segredos.
-
-### Marco 4.2 — Obsidian opcional
-
-- testar desktop CLI versus Headless;
-- leitura limitada à pasta autorizada;
-- busca e backlinks como contexto;
-- conflitos e versionamento.
-
-**Gate F4:** Obsidian agrega valor sem virar dependência do núcleo.
-
-## Fase 5 — Runtime de agentes
-
-### Marco 5.1 — Abstração de runtime
-
-- contrato de sessão, tarefa, evento, cancelamento e resultado;
-- fake runtime para testes;
-- política de timeout, custo e auditoria.
-
-### Marco 5.2 — Spike Hermes
-
-- revalidar o POC da Fase 0 contra a versão atual;
-- implementar o adaptador somente se o Gate H0 aprovou o caminho;
-- validar handoff, persistência, busca de sessões e retomada real;
-- integrar skills e approvals sem permitir autopromoção;
-- medir RAM/CPU, cancelamento e recuperação sob carga;
-- atualizar o ADR de adoção.
-
-### Marco 5.3 — Primeiro trabalho assistido
-
-- somente tarefa reversível em repositório de teste;
-- branch isolada;
-- diff e testes apresentados;
-- confirmação antes de merge/push quando aplicável.
-
-**Gate F5:** uma retomada real assistida termina com evidência e controle humano.
-
-**Gate H2:** o app troca o Hermes por um runtime falso ou alternativo sem perder o estado principal do projeto.
-
-## Fase 6 — Providers e continuidade
-
-- matriz oficial de capacidades por provedor;
-- autenticação individual e revogável;
-- quotas e erros explícitos;
-- seleção manual primeiro;
-- fallback automático apenas quando permitido, transparente e seguro;
-- nunca burlar limites ou termos de assinatura.
-
-## Fase 7 — Learning Gate
-
-- detectar proposta de memória/skill/regra;
-- classificar e anexar evidências;
-- validar automaticamente;
-- Rafael aprova/rejeita;
-- versionar, auditar e permitir rollback;
-- impedir autopromoção direta para produção.
-
-## Fase 8 — Plataforma compartilhada futura
-
-Somente após o Projeto Vivo estar estável, avaliar extração de infraestrutura compartilhada para `Rafael AI Platform` e integração com o Diretor 360. Esse marco não autoriza levar dados bancários ao Projeto Vivo.
+Compose, Room, UX do Projeto Vivo, notificações, biometria e navegação pertencem ao RIN.
