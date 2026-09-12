@@ -2,46 +2,59 @@
 
 ## Missão atual
 
-Construir o Projeto Vivo em incrementos pequenos, verificáveis e reversíveis. Não iniciar o Diretor 360 neste repositório sem decisão explícita registrada.
+Construir a **AI Workstation**, plataforma headless consumida pelo aplicativo Android RIN. O Projeto Vivo é um módulo do RIN; não implementar UI Android neste repositório.
 
 ## Ordem de leitura obrigatória
 
 1. `README.md`
-2. `docs/01-visao-produto.md`
-3. `docs/02-escopo-mvp.md`
-4. `docs/03-arquitetura-inicial.md`
-5. `docs/04-roadmap.md`
-6. `docs/06-decisoes-e-hipoteses.md`
-7. `docs/07-seguranca.md`
+2. `docs/12-divisao-rin-aiworkstation.md`
+3. `docs/01-visao-produto.md`
+4. `docs/02-escopo-mvp.md`
+5. `docs/03-arquitetura-inicial.md`
+6. `docs/04-roadmap.md`
+7. `docs/06-decisoes-e-hipoteses.md`
+8. `docs/07-seguranca.md`
+9. contrato correspondente em `playertwo1/rin/docs/INTEGRATION_CONTRACT.md`
+
+## Responsabilidade deste repositório
+
+- API versionada e pareamento.
+- Estado canônico, eventos e auditoria.
+- Git local e adaptador GitHub.
+- Supervisor, filas, comandos e políticas.
+- Adaptadores de Codex, Claude, Antigravity e possível Hermes.
+- Knowledge Hub/Obsidian e automações, quando aprovados.
+- Monitoramento do nó headless.
+
+## Fora deste repositório
+
+- Compose, Room, WorkManager, telas e navegação.
+- Cache offline e preferências móveis.
+- Implementação do módulo visual Projeto Vivo.
+- Notificações e biometria Android.
+
+Esses itens pertencem ao `playertwo1/rin`.
 
 ## Princípios
 
-- Local-first sempre que for simples e seguro.
-- O app Android controla; não executa cargas pesadas.
-- GitHub é a verdade do código e do histórico versionado.
-- Nenhuma integração de assinatura é presumida até um spike provar autenticação, limites, estabilidade e conformidade.
-- Nenhuma ação destrutiva, promoção de memória, alteração de regra ou execução privilegiada ocorre sem aprovação humana.
-- Diferenciar fato confirmado, hipótese, decisão e questão aberta.
-- Não misturar conhecimento, memória operacional, dados de negócio e código.
-- Entregas pequenas: uma história vertical por vez, com critérios de aceite e testes.
+- Local-first e headless quando simples e seguro.
+- Contrato público independente de provedores.
+- Git/GitHub como verdade do código.
+- Estado persistido antes de transmissão.
+- Aprovação humana para ações críticas.
+- Fato, hipótese, decisão e questão aberta são distintos.
+- Fake adapters em testes; CLIs reais somente em testes opt-in.
+- Sem shell genérico, segredos no Git ou sucesso sem evidência.
 
 ## Disciplina de mudança
 
-- Antes de implementar, identifique o item do roadmap/backlog.
-- Se uma escolha arquitetural importante surgir, crie ou atualize um ADR em `docs/adr/`.
-- Atualize `PROJECT_STATE.md` e `CHANGELOG.md` em toda entrega material.
-- Não armazenar tokens, cookies, segredos, dados bancários ou dados pessoais no Git.
-- Preferir mocks e contratos na primeira fase; integrações reais entram depois dos spikes.
+- Identificar item do roadmap/backlog.
+- Registrar arquitetura em `docs/adr/`.
+- Atualizar `PROJECT_STATE.md` e `CHANGELOG.md`.
+- Alterações incompatíveis de API exigem versão nova e coordenação com RIN.
+- Validar autenticação, limites, estabilidade e termos atuais de cada integração.
+- Parar diante de dados reais sensíveis, credenciais ou ação destrutiva não autorizada.
 
 ## Definition of Done
 
-Uma entrega só está concluída quando:
-
-- critérios de aceite foram satisfeitos;
-- testes relevantes passaram;
-- documentação afetada foi atualizada;
-- estados de erro e carregamento foram considerados;
-- segurança e privacidade foram revisadas;
-- não há segredo no diff;
-- o próximo passo está registrado.
-
+Critérios aceitos, testes passando, documentação atualizada, erros considerados, revisão de segurança concluída, nenhum segredo no diff, evidência persistida e próximo passo registrado.
