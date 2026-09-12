@@ -1,83 +1,61 @@
-# Escopo do MVP
+# Escopo do MVP da AI Workstation
 
-## Hipótese do MVP
+## Hipótese
 
-Antes de orquestrar múltiplos agentes, o maior valor pode ser obtido resolvendo continuidade e visibilidade. Portanto, o MVP será um **painel confiável de projetos com checkpoints manuais e sincronização GitHub básica**.
+Antes da orquestração real, o maior risco é a fronteira entre celular e computador. O MVP provará uma plataforma headless segura e rastreável consumível pelo RIN, primeiro com dados simulados e depois com Git em leitura.
 
 ## Incluído
 
-### Cadastro de projetos
+### Serviço do nó
 
-- nome, descrição e prioridade;
-- repositório GitHub opcional;
-- estado: ideia, planejando, ativo, bloqueado, pausado ou concluído;
-- tecnologia e ferramenta/agente atual;
-- execução local ou futura no nó headless.
+- instalação local/headless;
+- health, versão e capabilities;
+- configuração sem segredos no Git;
+- encerramento e reinício coerentes.
 
-### Tela inicial
+### Projetos e estado
 
-- lista de projetos;
-- status visual sem porcentagens inventadas;
-- última atividade;
-- bloqueio principal;
-- próximo passo;
-- filtro por status/prioridade.
+- cadastro de raízes autorizadas;
+- projetos, checkpoints, decisões e work items;
+- snapshots e event log persistentes;
+- erros estruturados;
+- cursor para sincronização incremental.
 
-### Detalhe do projeto
+### API v1
 
-- resumo **Onde parei?**;
-- decisões;
-- pendências e bugs;
-- checkpoints cronológicos;
-- informações Git essenciais;
-- fontes/evidências do resumo.
+- projetos e detalhe;
+- eventos;
+- comandos tipados simulados;
+- aprovações simuladas;
+- idempotência, timeout e versionamento;
+- testes de contrato compatíveis com RIN.
 
-### Checkpoint
+### Git em leitura
 
-- registrar manualmente trabalho realizado;
-- registrar agente utilizado;
-- resultado, problemas, decisões e próximo passo;
-- anexar referência a commit, branch, issue ou arquivo;
-- editar com histórico básico.
+- branch, HEAD, working tree e commits;
+- sanitização de caminhos/conteúdo;
+- vínculo entre afirmação e evidência.
 
-### GitHub somente leitura
+### Simuladores
 
-- repositório, branch padrão e branch de trabalho;
-- último commit;
-- issues/PRs relevantes quando disponível;
-- atualização manual e indicação clara de horário da última sincronização.
-
-### Operação offline
-
-- leitura e edição dos dados locais;
-- fila de sincronização posterior;
-- estados explícitos: local, sincronizando, sincronizado e conflito.
+- fake agent;
+- fake Git repository;
+- estados de sucesso, falha, espera, cancelamento e interrupção;
+- execução reproduzível em CI.
 
 ## Fora do MVP
 
-- execução remota de Codex/Claude/Gemini;
-- roteamento ou troca automática entre assinaturas;
-- autonomia multiagente;
-- escrita automática em memória ou skills;
-- Obsidian Headless em produção;
-- Hermes como dependência obrigatória;
-- n8n e PostgreSQL obrigatórios;
-- monitor de recursos completo;
-- comandos destrutivos no notebook;
-- colaboração multiusuário.
+- código Android, Room, Compose ou notificações;
+- execução real de Codex/Claude/Antigravity;
+- roteamento e fallback automáticos;
+- Hermes obrigatório;
+- Obsidian obrigatório;
+- shell remoto;
+- push/merge/destruição;
+- multiusuário;
+- Diretor 360/dados bancários;
+- acesso público pela internet.
 
-## Telas mínimas
+## Critério de saída
 
-1. Onboarding local.
-2. Home de projetos.
-3. Criar/editar projeto.
-4. Detalhe do projeto.
-5. Criar checkpoint.
-6. Histórico.
-7. Configuração da integração GitHub.
-8. Central de sincronização/erros.
-
-## Critério de saída do MVP
-
-O MVP está pronto quando Rafael conseguir cadastrar ao menos três projetos reais, registrar checkpoints, fechar e reabrir o app sem perder dados e responder “onde parei?” usando informações rastreáveis do app e do GitHub.
-
+O MVP está pronto quando o RIN consegue parear em ambiente de teste, consultar health/capabilities, sincronizar três projetos, recuperar eventos após desconexão e acompanhar uma sessão simulada sem falso sucesso ou perda de estado.
