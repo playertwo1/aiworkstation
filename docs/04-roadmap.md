@@ -2,6 +2,17 @@
 
 Não há datas artificiais. Cada marco termina com evidência demonstrável e decisão de continuar, ajustar ou descartar.
 
+## Duas trilhas desde o início
+
+O Projeto Vivo será desenvolvido em duas trilhas coordenadas:
+
+| Trilha | Começa | Objetivo | Regra |
+|---|---|---|---|
+| Produto Android | Fase 0 | Provar “Onde parei?” e continuidade | Não depender do Hermes |
+| Hermes Runtime | Fase 0 | Descobrir se Hermes serve como motor de agentes | POC isolado, sem modificar projetos reais |
+
+O Hermes não foi adiado para o fim. Sua investigação começa antes do código de produção, mas a integração só acontece depois de evidência suficiente. Detalhes completos estão em `docs/11-trilha-hermes.md`.
+
 ## Fase 0 — Fundação
 
 ### Marco 0.1 — Alinhar o produto
@@ -26,12 +37,28 @@ Não há datas artificiais. Cada marco termina com evidência demonstrável e de
 ### Marco 0.3 — Spikes de risco
 
 - autenticação GitHub e limites mínimos;
-- Hermes isolado: instalação, providers, sessões, approvals e consumo;
+- iniciar a Trilha Hermes com POC isolado e repositório descartável;
+- validar instalação headless, licença, manutenção, API real e compatibilidade com Windows/WSL;
+- testar profiles, sessões, busca, memória, skills, approvals, cancelamento e eventos;
+- medir providers realmente disponíveis, autenticação oficial, limites e consumo;
+- comparar integração direta via `AgentRuntimeProvider` com adoção mais profunda;
 - Obsidian: arquivos Markdown primeiro; CLI/Headless como opção;
 - comunicação segura Android ↔ nó headless;
 - prova de suspensão/retomada de serviço sem perda de estado.
 
-**Aceite:** relatório reproduzível com passou/falhou, evidência e recomendação para cada spike.
+**Aceite Hermes:** demonstração reproduzível e um parecer preliminar `promissor`, `limitado` ou `inviável`. Isso ainda não autoriza acoplamento ao app.
+
+**Aceite geral:** relatório reproduzível com passou/falhou, evidência e recomendação para cada spike.
+
+### Marco 0.4 — Gate Hermes H0
+
+- consolidar evidências do POC;
+- comparar Hermes com runtime próprio mínimo;
+- registrar lacunas, riscos de lock-in e esforço de adaptação;
+- decidir uma das opções: `adotar por adaptador`, `adaptar componentes`, `continuar estudando` ou `descartar`;
+- criar ADR com a decisão.
+
+**Gate H0:** nenhuma funcionalidade do MVP Android pode depender do Hermes antes deste gate.
 
 ## Fase 1 — Aplicativo local
 
@@ -115,6 +142,17 @@ Não há datas artificiais. Cada marco termina com evidência demonstrável e de
 
 **Gate F3:** executar comandos permitidos do celular, com auditoria e sem shell arbitrário.
 
+### Marco 3.4 — Hospedar o adaptador Hermes, se aprovado
+
+- executar o Hermes no Galaxy Book/WSL como serviço isolado;
+- expor somente capacidades permitidas pelo `AgentRuntimeProvider`;
+- separar sessões e workspaces por projeto;
+- health check, cancelamento, timeout e recuperação de falhas;
+- limites de CPU, RAM e concorrência;
+- nenhum token no Android ou nos logs.
+
+**Gate H1:** o nó continua seguro e funcional quando o Hermes falha, reinicia ou fica indisponível.
+
 ## Fase 4 — Knowledge Hub
 
 ### Marco 4.1 — Exportação Markdown
@@ -143,11 +181,12 @@ Não há datas artificiais. Cada marco termina com evidência demonstrável e de
 
 ### Marco 5.2 — Spike Hermes
 
-- validar versão e documentação atuais;
-- profiles, sessões, busca, skills e approvals;
-- medir RAM/CPU e recuperação de falhas;
-- avaliar licença e manutenção;
-- produzir ADR adotar/adaptar/descartar.
+- revalidar o POC da Fase 0 contra a versão atual;
+- implementar o adaptador somente se o Gate H0 aprovou o caminho;
+- validar handoff, persistência, busca de sessões e retomada real;
+- integrar skills e approvals sem permitir autopromoção;
+- medir RAM/CPU, cancelamento e recuperação sob carga;
+- atualizar o ADR de adoção.
 
 ### Marco 5.3 — Primeiro trabalho assistido
 
@@ -157,6 +196,8 @@ Não há datas artificiais. Cada marco termina com evidência demonstrável e de
 - confirmação antes de merge/push quando aplicável.
 
 **Gate F5:** uma retomada real assistida termina com evidência e controle humano.
+
+**Gate H2:** o app troca o Hermes por um runtime falso ou alternativo sem perder o estado principal do projeto.
 
 ## Fase 6 — Providers e continuidade
 
@@ -179,4 +220,3 @@ Não há datas artificiais. Cada marco termina com evidência demonstrável e de
 ## Fase 8 — Plataforma compartilhada futura
 
 Somente após o Projeto Vivo estar estável, avaliar extração de infraestrutura compartilhada para `Rafael AI Platform` e integração com o Diretor 360. Esse marco não autoriza levar dados bancários ao Projeto Vivo.
-
