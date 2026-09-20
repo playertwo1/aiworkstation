@@ -103,6 +103,12 @@ Decisão: `adotar por adaptador`, `adaptar componentes`, `continuar estudando` o
 | AI Workstation | contratos, políticas, auditoria e plataforma |
 | RIN | UX, decisões e controle móvel |
 
+## Referências para ampliar o próprio Hermes
+
+A lista de skills, plugins e ferramentas candidatas fica em [`docs/13-referencias-hermes-power-pack.md`](13-referencias-hermes-power-pack.md).
+
+Ela é uma **fila de estudo/POC**, não uma lista de dependências aprovadas. RTK, Planning with Files, Agent Reach, Delegate Skills, Mantis e Skill Retrieval devem ser avaliados no Hermes primeiro; somente depois uma decisão explícita pode promover algum deles para uma integração da AI Workstation.
+
 ## Limites
 
 Sem projeto real no POC, token no RIN/Git/log, shell genérico, burla de quota, autopromoção, ação destrutiva, falso sucesso ou Hermes como fonte única do estado.
