@@ -38,15 +38,26 @@ flowchart TD
 
 ## Estado atual
 
-Fase 0: fronteiras consolidadas e documentação em revisão. Ainda não há código de produção. O primeiro caminho vertical será uma API simulada com health, capabilities e projetos, consumida pelo RIN.
+Fase 0: fronteiras consolidadas e documentação em revisão. Ainda não há código de produção. O primeiro caminho vertical será uma API simulada com health, capabilities e projetos, consumida pelo RIN. Onde paramos e próxima ação: [STATE.md](STATE.md).
+
+## Como rodar
+
+A definir: ainda não há código. A stack do nó será escolhida na Fase 0.2 ([ROADMAP](ROADMAP.md)).
+
+## Como verificar
+
+A definir junto com a stack (lint, testes, build e CI fazem parte da Fase 0.2). Hoje a verificação é a revisão da documentação.
 
 ## Comece por aqui
 
+- [Estado atual e próxima ação](STATE.md)
+- [Contrato de visão](PROJECT.md)
+- [Marcos](ROADMAP.md)
 - [Divisão dos repositórios](docs/12-divisao-rin-aiworkstation.md)
 - [Visão da plataforma](docs/01-visao-produto.md)
 - [Escopo do MVP](docs/02-escopo-mvp.md)
 - [Arquitetura](docs/03-arquitetura-inicial.md)
-- [Roadmap](docs/04-roadmap.md)
+- [Roadmap detalhado](docs/04-roadmap.md)
 - [Backlog](docs/05-backlog-inicial.md)
 - [Decisões e hipóteses](docs/06-decisoes-e-hipoteses.md)
 - [Segurança](docs/07-seguranca.md)
@@ -54,6 +65,8 @@ Fase 0: fronteiras consolidadas e documentação em revisão. Ainda não há có
 - [Briefing para Codex Astra](docs/09-briefing-codex-astra.md)
 - [Glossário](docs/10-glossario.md)
 - [Trilha Hermes](docs/11-trilha-hermes.md)
+- [Referências Hermes Power Pack](docs/13-referencias-hermes-power-pack.md)
+- [Histórico de mudanças](CHANGELOG.md)
 - [Instruções para agentes](AGENTS.md)
 
 ## Regra de foco

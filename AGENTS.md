@@ -6,12 +6,12 @@ Construir a **AI Workstation**, plataforma headless consumida pelo aplicativo An
 
 ## Ordem de leitura obrigatória
 
-1. `README.md`
+1. `README.md` e `STATE.md` (onde paramos e próxima ação)
 2. `docs/12-divisao-rin-aiworkstation.md`
 3. `docs/01-visao-produto.md`
 4. `docs/02-escopo-mvp.md`
 5. `docs/03-arquitetura-inicial.md`
-6. `docs/04-roadmap.md`
+6. `ROADMAP.md` (marcos) e `docs/04-roadmap.md` (detalhe)
 7. `docs/06-decisoes-e-hipoteses.md`
 8. `docs/07-seguranca.md`
 9. contrato correspondente em `playertwo1/rin/docs/INTEGRATION_CONTRACT.md`
@@ -50,10 +50,19 @@ Esses itens pertencem ao `playertwo1/rin`.
 
 - Identificar item do roadmap/backlog.
 - Registrar arquitetura em `docs/adr/`.
-- Atualizar `PROJECT_STATE.md` e `CHANGELOG.md`.
+- Atualizar `STATE.md` e `CHANGELOG.md` (`## X.Y.Z — AAAA-MM-DD`).
 - Alterações incompatíveis de API exigem versão nova e coordenação com RIN.
 - Validar autenticação, limites, estabilidade e termos atuais de cada integração.
 - Parar diante de dados reais sensíveis, credenciais ou ação destrutiva não autorizada.
+
+## Comandos
+
+- Rodar e verificar: a definir. Ainda não há código; a stack sai do spike da Fase 0.2.
+
+## Git
+
+- `CLAUDE.md` só importa este arquivo (`@AGENTS.md`).
+- Nunca force push nem reescreva histórico.
 
 ## Definition of Done
 
