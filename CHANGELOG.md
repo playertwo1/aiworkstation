@@ -1,6 +1,16 @@
 # Changelog
 
-## 2026-09-12 — Consolidação RIN + AI Workstation
+Cabeçalhos no formato `## X.Y.Z — AAAA-MM-DD`, mais recente primeiro. O projeto não tinha versões nem tags: os números `0.x.y` foram atribuídos na padronização (2026-10-17) usando as datas dos commits.
+
+## 0.2.1 — 2026-09-20
+
+### Adicionado
+
+- Referências de estudo do Hermes Power Pack (`docs/13-referencias-hermes-power-pack.md`) e links na trilha Hermes.
+
+## 0.2.0 — 2026-09-12
+
+Consolidação RIN + AI Workstation.
 
 ### Alterado
 
@@ -18,7 +28,7 @@
 - Regras de compatibilidade para impedir nova duplicação.
 - Trilha Hermes explícita desde a Fase 0, com gates H0, H1 e H2.
 
-## 2026-09-11
+## 0.1.0 — 2026-09-11
 
 ### Adicionado
 
