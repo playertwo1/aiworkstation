@@ -73,4 +73,4 @@ O contrato funcional nasce em `playertwo1/rin/docs/INTEGRATION_CONTRACT.md` dura
 
 ## Documentos históricos
 
-Arquivos de síntese e DOCX não serão apagados. Quando divergirem, prevalecem este documento, README, PROJECT_STATE, decisões e roadmaps atuais.
+Arquivos de síntese e DOCX não serão apagados. Quando divergirem, prevalecem este documento, README, STATE (antigo PROJECT_STATE), decisões e roadmaps atuais.
